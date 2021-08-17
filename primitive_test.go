@@ -1,13 +1,13 @@
 package ptypes
 
 import (
-	ptr2 "ptypes/ptr"
-	e "ptypes/ptr/prim"
+	pointer "ptypes/ptr"
+	"ptypes/ptr/prim"
 	"testing"
 )
 
-func TestErasure (t *testing.T) {
-	str := e.String.Name()
+func TestErasure(t *testing.T) {
+	str := prim.String.Name()
 	if str != "string" {
 		t.Error()
 	}
@@ -15,7 +15,7 @@ func TestErasure (t *testing.T) {
 
 func TestString(t *testing.T) {
 	str := "hello"
-	ptr := ptr2.FromString(str)
+	ptr := pointer.FromString(str)
 	deref, err := ptr.String()
 	if err != nil {
 		t.Error(err.Error())
@@ -28,7 +28,7 @@ func TestString(t *testing.T) {
 
 func TestUint(t *testing.T) {
 	value := uint(10)
-	ptr := ptr2.FromUint(value).IntBox()
+	ptr := pointer.FromUint(value).IntBox()
 	deref := ptr.Uint()
 	if deref == nil {
 		t.Fail()
@@ -40,7 +40,7 @@ func TestUint(t *testing.T) {
 
 func TestInt(t *testing.T) {
 	value := 10
-	ptr := ptr2.FromInt(value).IntBox()
+	ptr := pointer.FromInt(value).IntBox()
 	deref := ptr.Int()
 	if deref == nil {
 		t.Fail()
