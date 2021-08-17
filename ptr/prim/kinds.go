@@ -40,12 +40,16 @@ var (
 	UnsafePointer = of(unsafe.Pointer(&mock))
 )
 
-func of(i interface{}) BuiltinType {
+func of(i interface{}) *BuiltinType {
 	typeOf := reflect.TypeOf(i)
 	method := ConversionTypeMap[typeOf.Name()]
+	// Method does not exist, do not continue.
+	if method == nil {
+		return nil
+	}
 	builtin := BuiltinType{typeOf, method}
 	Builtins[typeOf.Name()] = builtin
-	return builtin
+	return &builtin
 }
 
 func (builtin *BuiltinType) Convert(pointer unsafe.Pointer) interface{} {

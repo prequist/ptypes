@@ -30,7 +30,22 @@ func TestUint(t *testing.T) {
 	value := uint(10)
 	ptr := ptr2.FromUint(value).IntBox()
 	deref := ptr.Uint()
-	if deref != value {
+	if deref == nil {
+		t.Fail()
+	}
+	if *deref != value {
+		t.Fail()
+	}
+}
+
+func TestInt(t *testing.T) {
+	value := 10
+	ptr := ptr2.FromInt(value).IntBox()
+	deref := ptr.Int()
+	if deref == nil {
+		t.Fail()
+	}
+	if *deref != value {
 		t.Fail()
 	}
 }

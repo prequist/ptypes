@@ -12,7 +12,10 @@ var (
 		return *(*string)(ptr)
 	})
 	UintMethod = ConversionMethod("uint", func(ptr unsafe.Pointer) interface{} {
-		return *(*uint)(ptr)
+		return (*uint)(ptr)
+	})
+	IntMethod = ConversionMethod("int", func(ptr unsafe.Pointer) interface{} {
+		return (*int)(ptr)
 	})
 )
 
@@ -25,8 +28,8 @@ func ConversionMethod(name string, method func(ptr unsafe.Pointer) interface{}) 
 }
 
 func Builtin(name string) *BuiltinType {
-	bi := Builtins[name]
-	if &bi == nil {
+	bi, ok := Builtins[name]
+	if !ok {
 		return nil
 	}
 	return &bi

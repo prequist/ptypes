@@ -18,7 +18,7 @@ type IntBox Box
 type StringBox Box
 
 func (box *Box) String() (string, error) {
-	if _, err := box.check(prim.String); err != nil {
+	if _, err := box.check(*prim.String); err != nil {
 		return "", err
 	}
 	conversion := prim.String.Convert(box.Value)
