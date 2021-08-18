@@ -3,7 +3,6 @@ package boxes
 import (
 	"errors"
 	"fmt"
-	"ptypes/ptr/prim"
 	"reflect"
 	"strings"
 	"unsafe"
@@ -12,17 +11,22 @@ import (
 type Box struct {
 	Value        unsafe.Pointer
 	OriginalType reflect.Type
+	HasErasure	 bool
 }
 
 type IntBox Box
-type StringBox Box
 
 func (box *Box) String() (string, error) {
-	if _, err := box.check(*prim.String); err != nil {
+	if _, err := box.check(*String); err != nil {
 		return "", err
 	}
-	conversion := prim.String.Convert(box.Value)
+	conversion := String.Convert(*box)
 	return conversion.(string), nil
+}
+
+func (box *Box) Interface() (interface{}, error) {
+	conversion := Interface.Convert(*box)
+	return conversion, nil
 }
 
 func (box Box) IntBox() IntBox {
@@ -34,7 +38,7 @@ func (box *Box) Type() string {
 	return box.OriginalType.String()
 }
 
-func (box *Box) check(newType prim.BuiltinType) (bool, error) {
+func (box *Box) check(newType BuiltinType) (bool, error) {
 	kind := newType.Kind()
 	og := box.OriginalType
 	if isPredefinedKind(kind) {

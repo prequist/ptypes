@@ -1,4 +1,4 @@
-package prim
+package boxes
 
 import (
 	"reflect"
@@ -9,6 +9,10 @@ import (
 type BuiltinType struct {
 	reflect.Type
 	Method conversionMethod
+}
+
+type InterfaceAlias struct {
+	Object interface{}
 }
 
 var (
@@ -38,6 +42,7 @@ var (
 	Slice         = of([]int{})
 	Struct        = of(struct{}{})
 	UnsafePointer = of(unsafe.Pointer(&mock))
+	Interface     = of(InterfaceAlias{})
 )
 
 func of(i interface{}) *BuiltinType {
@@ -52,6 +57,6 @@ func of(i interface{}) *BuiltinType {
 	return &builtin
 }
 
-func (builtin *BuiltinType) Convert(pointer unsafe.Pointer) interface{} {
+func (builtin *BuiltinType) Convert(pointer Box) interface{} {
 	return builtin.Method(pointer)
 }
