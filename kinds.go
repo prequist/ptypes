@@ -7,18 +7,25 @@ import (
 
 // BuiltinType a type alias for a golang builtin type.
 type BuiltinType struct {
+	// The nested reflect type.
 	reflect.Type
+	// The type's conversion method.
 	Method conversionMethod
 }
 
+// InterfaceAlias is an alias type utilised for boxing
+// the extremely primitive `interface{}` type.
 type InterfaceAlias struct {
+	// The boxed value.
 	Object interface{}
 }
 
+// These exported variables are
+// builtin types that can be associated with
+// ConversionMethod s to be used in pointer -> value conversion.
 var (
 	// mock mock variable to take the address off.
 	mock = 1
-	// String type of built-in string.
 	String        = of("")
 	Int           = of(1)
 	Uint          = of(uint(1))
@@ -45,18 +52,26 @@ var (
 	Interface     = of(InterfaceAlias{})
 )
 
+// Create a builtin type of a value, if the associated
+// conversion method exists.
 func of(i interface{}) *BuiltinType {
+	// Get the reflect type.
 	typeOf := reflect.TypeOf(i)
+	// Try to get the associated conversion type.
 	method := ConversionTypeMap[typeOf.Name()]
 	// Method does not exist, do not continue.
 	if method == nil {
 		return nil
 	}
+	// Create the builtin type and register it.
 	builtin := BuiltinType{typeOf, method}
 	Builtins[typeOf.Name()] = builtin
+	// Return a reference.
 	return &builtin
 }
 
-func (builtin *BuiltinType) Convert(pointer Box) interface{} {
-	return builtin.Method(pointer)
+// Convert a box's value into this type.
+func (builtin *BuiltinType) Convert(box Box) interface{} {
+	// Call the conversion method on the box.
+	return builtin.Method(box)
 }

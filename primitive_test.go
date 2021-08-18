@@ -20,6 +20,8 @@ func TestStringErasure(t *testing.T) {
 	}
 }
 
+// TestIntErasure tests erasure and conversion from an interface-typed box
+// back into an integer.
 func TestIntErasure(t *testing.T) {
 	value := 1
 	ptr := FromInterface(value)
@@ -46,6 +48,8 @@ func TestString(t *testing.T) {
 	}
 }
 
+// TestUint tests that a uint pointer can convert back into the uint
+// specified at the box creation.
 func TestUint(t *testing.T) {
 	value := uint(10)
 	ptr := FromUint(value).IntBox()

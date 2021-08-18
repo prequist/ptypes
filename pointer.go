@@ -6,7 +6,8 @@ import (
 )
 
 // Why do we have a bunch of functions with the same functionality?
-// This is the closest we're getting to overloading here.
+// This is the closest we're getting to overloading here, utilising
+// functions that do NOT support type erasure.
 //
 // Ideally, we'd want to use `interface{}`, however, there seems to be a
 // sort of type erasure that ends up actually segfaulting the program.
@@ -15,6 +16,9 @@ import (
 //
 // This is bypassed by using the `FromInterface` method which converts the value
 // back into interface, then handles the type assertion.
+//
+// The statically typed functions `From` + Type, do not support
+// type erasure, whereas `FromInterface` does.
 
 // FromInt create a box from an integer.
 func FromInt(i int) Box {
@@ -52,7 +56,8 @@ func FromUint(i uint) Box {
 	}
 }
 
-// FromInterface create a box from an interface
+// FromInterface create a box from an interface, supporting
+// type erasure in the conversion.
 func FromInterface(i interface{}) Box {
 	wrapped := InterfaceAlias{Object: i}
 	return Box{
