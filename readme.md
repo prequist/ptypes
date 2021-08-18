@@ -14,5 +14,5 @@ check map_test.go for a "real world" example with javascript-style-`.map`
 
 ### credits
 
-• [bfu4](https://github.com/bfu4) – creator, author, talent
-• [alii](https://github.com/alii)
+- [bfu4](https://github.com/bfu4) – creator, author
+- [alii](https://github.com/alii)
