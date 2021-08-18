@@ -1,16 +1,16 @@
 package ptypes
 
 import (
-	pointer "ptypes/ptr"
 	"testing"
 )
 
-// TestErasure tests creation from an interface handling type erasure.
+// TestStringErasure tests creation from an interface handling type erasure
+// utilising a string.
 // The interface box has a value that signifies if it could have been erased,
 // and handles the erasure respectfully.
-func TestErasure(t *testing.T) {
+func TestStringErasure(t *testing.T) {
 	value := "hello"
-	ptr := pointer.FromInterface(value)
+	ptr := FromInterface(value)
 	deref, err := ptr.String()
 	if err != nil {
 		t.Error(err.Error())
@@ -20,10 +20,22 @@ func TestErasure(t *testing.T) {
 	}
 }
 
+func TestIntErasure(t *testing.T) {
+	value := 1
+	ptr := FromInterface(value)
+	deref := ptr.IntBox().Int()
+	if deref == nil {
+		t.Error("the interface value was not an integer!")
+	}
+	if *deref != value {
+		t.Errorf("the number '%d' was not the input number '%d'!", *deref, value)
+	}
+}
+
 // TestString tests the conversion of string to pointer to string.
 func TestString(t *testing.T) {
 	str := "hello"
-	ptr := pointer.FromString(str)
+	ptr := FromString(str)
 	deref, err := ptr.String()
 	if err != nil {
 		t.Error(err.Error())
@@ -36,7 +48,7 @@ func TestString(t *testing.T) {
 
 func TestUint(t *testing.T) {
 	value := uint(10)
-	ptr := pointer.FromUint(value).IntBox()
+	ptr := FromUint(value).IntBox()
 	deref := ptr.Uint()
 	if deref == nil {
 		t.Fail()
@@ -48,7 +60,7 @@ func TestUint(t *testing.T) {
 
 func TestInt(t *testing.T) {
 	value := 10
-	ptr := pointer.FromInt(value).IntBox()
+	ptr := FromInt(value).IntBox()
 	deref := ptr.Int()
 	if deref == nil {
 		t.Fail()
@@ -63,7 +75,7 @@ func TestInt(t *testing.T) {
 // then be asserted.
 func TestInterface(t *testing.T) {
 	value := "hello"
-	ptr := pointer.FromInterface(value)
+	ptr := FromInterface(value)
 	deref, err := ptr.Interface()
 	if err != nil {
 		t.Error(err.Error())

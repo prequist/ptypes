@@ -1,4 +1,4 @@
-package boxes
+package ptypes
 
 var (
 	ConversionTypeMap = make(map[string]conversionMethod, 0)
@@ -18,14 +18,16 @@ var (
 	UintMethod = ConversionMethod("uint", func(ptr Box) interface{} {
 		if ptr.HasErasure {
 			casted := *(*interface{})(ptr.Value)
-			return casted.(*uint)
+			asserted := casted.(uint)
+			return &asserted
 		}
 		return (*uint)(ptr.Value)
 	})
 	IntMethod = ConversionMethod("int", func(ptr Box) interface{} {
 		if ptr.HasErasure {
 			casted := *(*interface{})(ptr.Value)
-			return casted.(*int)
+			asserted := casted.(int)
+			return &asserted
 		}
 		return (*int)(ptr.Value)
 	})

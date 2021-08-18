@@ -1,4 +1,4 @@
-package boxes
+package ptypes
 
 import (
 	"reflect"

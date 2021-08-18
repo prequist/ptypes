@@ -1,7 +1,6 @@
-package ptr
+package ptypes
 
 import (
-	"ptypes/boxes"
 	"reflect"
 	"unsafe"
 )
@@ -18,8 +17,8 @@ import (
 // back into interface, then handles the type assertion.
 
 // FromInt create a box from an integer.
-func FromInt(i int) boxes.Box {
-	return boxes.Box{
+func FromInt(i int) Box {
+	return Box{
 		Value: unsafe.Pointer(&i),
 		OriginalType: reflect.TypeOf(i),
 		HasErasure: false,
@@ -27,8 +26,8 @@ func FromInt(i int) boxes.Box {
 }
 
 // FromInt64 create a box from an int64
-func FromInt64(i64 int64) boxes.Box {
-	return boxes.Box{
+func FromInt64(i64 int64) Box {
+	return Box{
 		Value: unsafe.Pointer(&i64),
 		OriginalType: reflect.TypeOf(i64),
 		HasErasure: false,
@@ -36,8 +35,8 @@ func FromInt64(i64 int64) boxes.Box {
 }
 
 // FromString create a box fom a string.
-func FromString(str string) boxes.Box {
-	return boxes.Box{
+func FromString(str string) Box {
+	return Box{
 		Value: unsafe.Pointer(&str),
 		OriginalType: reflect.TypeOf(str),
 		HasErasure: false,
@@ -45,8 +44,8 @@ func FromString(str string) boxes.Box {
 }
 
 // FromUint create a box from a unsigned integer.
-func FromUint(i uint) boxes.Box {
-	return boxes.Box{
+func FromUint(i uint) Box {
+	return Box{
 		Value: unsafe.Pointer(&i),
 		OriginalType: reflect.TypeOf(i),
 		HasErasure: false,
@@ -54,9 +53,9 @@ func FromUint(i uint) boxes.Box {
 }
 
 // FromInterface create a box from an interface
-func FromInterface(i interface{}) boxes.Box {
-	wrapped := boxes.InterfaceAlias{Object: i}
-	return boxes.Box{
+func FromInterface(i interface{}) Box {
+	wrapped := InterfaceAlias{Object: i}
+	return Box{
 		Value: unsafe.Pointer(&wrapped),
 		OriginalType: reflect.TypeOf(wrapped),
 		HasErasure: true,
