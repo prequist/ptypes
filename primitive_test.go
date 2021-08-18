@@ -76,10 +76,7 @@ func TestInt(t *testing.T) {
 func TestInterface(t *testing.T) {
 	value := "hello"
 	ptr := FromInterface(value)
-	deref, err := ptr.Interface()
-	if err != nil {
-		t.Error(err.Error())
-	}
+	deref := ptr.Interface()
 	str := deref.(string)
 	if value != deref {
 		t.Errorf("the string '%s' was not the input string '%s'!", deref, str)
